@@ -1,8 +1,6 @@
 import os
 from . import DATA_PATH
 from pipeline.feature_extractors.base import FeatureExtractorBase
-from pipeline.data.base import DataBuilderBase
-from pipeline.models.base import ModelBase
 
 
 class ConfigBase:
@@ -10,8 +8,8 @@ class ConfigBase:
             self,
             experiment_name: str,
             feature_extractor: FeatureExtractorBase = None,
-            model: ModelBase = None,
-            data_builder: DataBuilderBase = None
+            model=None,
+            data_builder=None
     ):
         self.experiment_name = experiment_name
 

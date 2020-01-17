@@ -18,5 +18,6 @@ class Config(ConfigBase):
         super().__init__(
             experiment_name="main",
             feature_extractor=feature_extractor,
-            model=model
+            model=model,
+            data_builder=None
         )

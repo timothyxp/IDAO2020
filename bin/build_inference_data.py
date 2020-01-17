@@ -1,4 +1,4 @@
-from pipeline.utils import load_config, build_inference_data
+from pipeline.utils import load_config
 from pipeline.config_base import ConfigBase
 
 import argparse
