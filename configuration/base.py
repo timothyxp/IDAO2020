@@ -8,6 +8,7 @@ class Config(ConfigBase):
         feature_extractor = FeatureExtractorCombiner([
         ])
 
+        #model = myModel from models.base.py
         model = lambda: CatBoostClassifier(
             learning_rate=0.07,
             max_depth=2,
