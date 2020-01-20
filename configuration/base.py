@@ -17,7 +17,7 @@ class Config(ConfigBase):
             ])
         )
 
-        model = ModelBoosting()
+        model = ModelBoosting(self)
 
         super().__init__(
             experiment_name="main",
