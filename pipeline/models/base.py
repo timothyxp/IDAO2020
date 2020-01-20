@@ -3,7 +3,7 @@ from pipeline.config_base import ConfigBase
 import pandas as pd
 from catboost import CatBoostRegressor
 import random
-from pipeline.logging import logger
+from pipeline.logging.logger import logger
 import os
 import pickle
 
@@ -23,7 +23,7 @@ class ModelBase(ABC):
 
 class ModelBoosting(ModelBase):
     def train(self):
-        data = pd.read_csv(config.train_data_path, low_memory=False)
+        data = pd.read_csv(self.config.train_data_path, low_memory=False)
 
         list600 = [i for i in range(1, 601)]
         train_ids = random.choices(list600, k=500)
@@ -35,7 +35,6 @@ class ModelBoosting(ModelBase):
 
         train_data = cropped_data.loc[cropped_data['sat_id'].isin(train_ids)].drop(columns=['sat_id'])
         train_target = data[target_columns]
-        # test_data = cropped_data.loc[cropped_data['sat_id'].isin(test_ids)]
 
         model = CatBoostRegressor(
             learning_rate=0.07,
@@ -49,13 +48,29 @@ class ModelBoosting(ModelBase):
 
         model.fit(train_data, train_target)
 
-        main_model_path = os.path.join(config.models_path, "main_model.pkl")
+        main_model_path = os.path.join(self.config.models_path, "main_model.pkl")
 
         logger.info(f"saving the model to {main_model_path}")
         with open(main_model_path, "wb") as f:
             pickle.dump(model, f)
 
-
+        test_data = cropped_data.loc[cropped_data['sat_id'].isin(test_ids)].drop(columns=['sat_id'])
+        test_data.to_csv(self.config.inference_data, index=False)
 
     def predict(self):
-        pass
+        logger.info("read inference_data")
+        inference_data = pd.read_csv(self.config.inference_data, low_memory=False)
+
+        logger.info(f"inference data shape {inference_data.shape}")
+
+        main_model_path = os.path.join(self.config.models_path, "main_model.pkl")
+        logger.info(f"loading model from {main_model_path}")
+        with open(main_model_path, "rb") as f:
+            model = pickle.loads(f.read())
+
+        logger.info("start predicting")
+        prediction = model.predict(inference_data)
+
+
+
+        prediction.to_csv(self.config.submit_data_path, index=True)

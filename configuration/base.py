@@ -4,6 +4,8 @@ from pipeline.feature_extractors.base import FeatureExtractorCombiner, FeatureEx
 from pipeline.feature_extractors.time import FeatureExtractorTime
 from pipeline.feature_extractors.radius import FeatureExtractorRadius
 from pipeline.data.default import DataBuilderDefault
+from pipeline.feature_extractors.base import FeatureExtractorCombiner
+from pipeline.models.base import ModelBoosting
 
 
 class Config(ConfigBase):
@@ -15,13 +17,7 @@ class Config(ConfigBase):
             ])
         )
 
-        #model = myModel from models.base.py
-        model = lambda: CatBoostClassifier(
-            learning_rate=0.07,
-            max_depth=2,
-            iterations=70,
-            thread_count=8
-        )
+        model = ModelBoosting()
 
         super().__init__(
             experiment_name="main",
