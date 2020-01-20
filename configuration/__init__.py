@@ -1,3 +1,4 @@
 
 # columns that determine data row
-EVENT_COLUMNS = ["sat_id", "epoch"]
+EVENT_COLUMNS = ["id", "sat_id", "epoch"]
+TARGET_COLUMNS = ['x', 'y', 'z', 'Vx', 'Vy', 'Vz']

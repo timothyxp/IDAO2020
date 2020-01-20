@@ -18,6 +18,7 @@ class ConfigBase:
         self.data_path = os.path.join(DATA_PATH, self.experiment_name)
 
         os.makedirs(self.data_path, exist_ok=True)
+        os.makedirs(self.models_path, exist_ok=True)
 
         self.model = model
 
@@ -44,5 +45,13 @@ class ConfigBase:
         return f"{self.data_path}/test.csv"
 
     @property
+    def submit_data_path(self):
+        return f"{self.data_path}/submit_data.csv"
+
+    @property
     def cache_path(self):
         return f"{self.data_path}/cache"
+
+    @property
+    def models_path(self):
+        return f"{self.data_path}/model"
