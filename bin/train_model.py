@@ -10,6 +10,7 @@ def main():
     args = parser.parse_args()
 
     config: ConfigBase = load_config(args.config_path)
+   
     config.model.train()
 
 
